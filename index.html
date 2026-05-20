@@ -59,7 +59,7 @@
           <label class="field">
             <span class="field-label">Планируемое количество продаж в месяц</span>
             <span class="field-hint">штук</span>
-            <input type="number" id="quantity" min="0" step="1" placeholder="0" value="200">
+            <input type="number" id="quantity" min="0" step="1" placeholder="0" value="2000">
           </label>
         </div>
 
@@ -264,8 +264,8 @@
     © Aibek & Co · Pricing Consulting · Almaty, Kazakhstan
   </footer>
 
-  <div id="printReport">
-    <header>
+  <div id="printReport" aria-hidden="true">
+    <div class="print-report-header">
       <div class="brand">
         <div class="logo-square">A</div>
         <div>
@@ -277,34 +277,34 @@
         <div>Отчёт от</div>
         <div id="reportDate"></div>
       </div>
-    </header>
+    </div>
 
-    <h1>Отчёт для: <span id="businessName"></span></h1>
-    <p class="subtitle">Анализ юнит-экономики и сценариев изменения цены</p>
+    <h1 class="print-report-title">Отчёт для: <span id="businessName"></span></h1>
+    <p class="print-report-subtitle">Анализ юнит-экономики и сценариев изменения цены</p>
 
-    <section>
+    <section class="print-report-section">
       <h2>Исходные данные</h2>
       <table id="printInputData"></table>
     </section>
 
-    <section>
+    <section class="print-report-section">
       <h2>Ключевые показатели</h2>
       <div id="printKeyMetrics"></div>
     </section>
 
-    <section id="printScenarios">
+    <section id="printScenarios" class="print-report-section hidden">
       <h2>Сценарии изменения цены</h2>
       <p id="printSimNote" class="print-sim-note"></p>
       <table id="printScenariosTable"></table>
-      <p id="printConclusion" class="print-conclusion hidden"></p>
+      <p id="printConclusion" class="print-sim-conclusion hidden"></p>
     </section>
 
-    <section class="recommendation">
+    <section class="print-report-section print-report-recommendation">
       <h2>Рекомендация</h2>
       <p id="printRecommendation"></p>
     </section>
 
-    <footer>© Aibek & Co · Pricing Consulting · Almaty, Kazakhstan</footer>
+    <div class="print-report-footer">© Aibek & Co · Pricing Consulting · Almaty, Kazakhstan</div>
   </div>
 
   <script src="script.js"></script>

@@ -142,7 +142,7 @@ function preparePrintReport(businessName) {
   const conclusionEl = document.getElementById("printConclusion");
 
   if (sim && sim.priceChange !== 0) {
-    scenariosSection.style.display = "block";
+    scenariosSection.classList.remove("hidden");
     document.getElementById("printSimNote").textContent =
       "Изменение цены: " +
       document.getElementById("priceChangeValue").textContent +
@@ -151,7 +151,7 @@ function preparePrintReport(businessName) {
     document.getElementById("printScenariosTable").innerHTML = buildPrintScenariosTable(state);
 
     if (state.conclusionText) {
-      conclusionEl.textContent = state.conclusionText;
+      conclusionEl.textContent = "Вывод симулятора: " + state.conclusionText;
       conclusionEl.classList.remove("hidden", "negative");
       if (state.conclusionClass === "negative") {
         conclusionEl.classList.add("negative");
@@ -161,7 +161,9 @@ function preparePrintReport(businessName) {
       conclusionEl.textContent = "";
     }
   } else {
-    scenariosSection.style.display = "none";
+    scenariosSection.classList.add("hidden");
+    conclusionEl.classList.add("hidden");
+    conclusionEl.textContent = "";
   }
 
   return true;

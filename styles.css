@@ -598,34 +598,30 @@ input[type="range"]:focus::-webkit-slider-thumb {
   margin-top: 1rem;
 }
 
-/* Отчёт для печати — скрыт на экране */
+/* Отчёт для печати — только в диалоге печати */
 #printReport {
-  display: none;
+  display: none !important;
 }
 
 @media print {
-  body * {
-    visibility: hidden;
-  }
-
-  #printReport,
-  #printReport * {
-    visibility: visible;
+  /* Скрываем всю страницу кроме блока отчёта */
+  body > *:not(#printReport) {
+    display: none !important;
   }
 
   #printReport {
     display: block !important;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static;
     width: 100%;
     padding: 20mm;
+    margin: 0;
     font-family: Arial, sans-serif;
     color: #1a1a1a;
     box-sizing: border-box;
+    background: #faf8f3;
   }
 
-  #printReport header {
+  #printReport .print-report-header {
     display: flex;
     justify-content: space-between;
     border-bottom: 2px solid #0f4c3a;
@@ -668,13 +664,13 @@ input[type="range"]:focus::-webkit-slider-thumb {
     text-align: right;
   }
 
-  #printReport h1 {
+  #printReport .print-report-title {
     font-size: 22px;
     margin: 0 0 5px;
     color: #1a1a1a;
   }
 
-  #printReport .subtitle {
+  #printReport .print-report-subtitle {
     font-size: 12px;
     color: #6b6b6b;
     margin: 0 0 25px;
@@ -722,7 +718,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   #printReport .metric-card {
     border: 1px solid #c9a961;
     padding: 10px;
-    background: #faf8f3;
+    background: #fff;
   }
 
   #printReport .metric-label {
@@ -743,7 +739,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
     margin: 0 0 10px;
   }
 
-  #printReport .print-conclusion {
+  #printReport .print-sim-conclusion {
     font-size: 12px;
     font-weight: 600;
     padding: 10px 12px;
@@ -753,19 +749,25 @@ input[type="range"]:focus::-webkit-slider-thumb {
     margin-top: 10px;
   }
 
-  #printReport .print-conclusion.negative {
+  #printReport .print-sim-conclusion.negative {
     background: #fdecea;
     color: #b83227;
   }
 
-  #printReport .recommendation {
-    background: #faf8f3;
+  #printReport .print-report-recommendation {
+    background: #fff;
     border-left: 4px solid #c9a961;
     padding: 12px 15px;
     margin-top: 15px;
   }
 
-  #printReport footer {
+  #printReport .print-report-recommendation p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  #printReport .print-report-footer {
     margin-top: 30px;
     padding-top: 10px;
     border-top: 1px solid #c9a961;
@@ -779,7 +781,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   }
 
   @page {
-    margin: 0;
+    margin: 12mm;
   }
 }
 
