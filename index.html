@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aibek & Co — Юнит-экономика</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="brand-header">
+    <div class="brand-header-inner">
+      <div class="brand-logo">
+        <div class="brand-logo-mark">A</div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Aibek & Co</span>
+          <span class="brand-tagline">Pricing Consulting | Almaty</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <header class="page-header">
+      <h1>Юнит-экономика и симулятор цены</h1>
+      <p class="subtitle">Анализ прибыльности для малого и среднего бизнеса</p>
+    </header>
+
+    <main class="calculator">
+      <section class="inputs card">
+        <h2>Данные</h2>
+
+        <div class="mode-tabs" role="tablist">
+          <button type="button" class="mode-tab active" data-mode="single" role="tab" aria-selected="true">Один товар</button>
+          <button type="button" class="mode-tab" data-mode="multi" role="tab" aria-selected="false">Несколько товаров</button>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Постоянные затраты в месяц</span>
+          <span class="field-hint">аренда + зарплаты + коммуналка, тенге</span>
+          <input type="number" id="fixedCosts" min="0" step="1" placeholder="0" value="500000">
+        </label>
+
+        <div id="singleProductInputs">
+          <label class="field">
+            <span class="field-label">Цена продажи единицы товара</span>
+            <span class="field-hint">тенге</span>
+            <input type="number" id="price" min="0" step="1" placeholder="0" value="5000">
+          </label>
+
+          <label class="field">
+            <span class="field-label">Себестоимость единицы товара</span>
+            <span class="field-hint">тенге</span>
+            <input type="number" id="cost" min="0" step="1" placeholder="0" value="3000">
+          </label>
+
+          <label class="field">
+            <span class="field-label">Планируемое количество продаж в месяц</span>
+            <span class="field-hint">штук</span>
+            <input type="number" id="quantity" min="0" step="1" placeholder="0" value="200">
+          </label>
+        </div>
+
+        <div id="multiProductInputs" class="hidden">
+          <div class="table-wrapper">
+            <table class="products-table" id="productsTable">
+              <thead>
+                <tr>
+                  <th>Название</th>
+                  <th>Цена</th>
+                  <th>Себестоимость</th>
+                  <th>Продажи в месяц</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="productsBody"></tbody>
+            </table>
+          </div>
+          <button type="button" class="btn-secondary" id="addProductBtn">+ Добавить товар</button>
+        </div>
+      </section>
+
+      <section class="results card">
+        <h2>Результаты</h2>
+
+        <div class="result-card">
+          <span class="result-label" id="grossProfitLabel">Валовая прибыль с единицы</span>
+          <span class="result-value" id="grossProfit">—</span>
+          <span class="result-unit" id="grossProfitUnit">₸</span>
+        </div>
+
+        <div class="result-card">
+          <span class="result-label" id="grossMarginLabel">Валовая маржа</span>
+          <span class="result-value" id="grossMargin">—</span>
+        </div>
+
+        <div class="result-card">
+          <span class="result-label">Контрибуционная маржа в месяц</span>
+          <span class="result-value" id="contributionMargin">—</span>
+          <span class="result-unit">₸</span>
+        </div>
+
+        <div class="result-card" id="breakEvenCard">
+          <span class="result-label" id="breakEvenLabel">Точка безубыточности</span>
+          <span class="result-value" id="breakEven">—</span>
+          <span class="result-unit" id="breakEvenUnit">шт.</span>
+        </div>
+
+        <div class="result-card">
+          <span class="result-label">Чистая прибыль в месяц</span>
+          <span class="result-value" id="netProfit">—</span>
+          <span class="result-unit">₸</span>
+        </div>
+
+        <div class="result-card">
+          <span class="result-label">Чистая маржа</span>
+          <span class="result-value" id="netMargin">—</span>
+        </div>
+
+        <div id="productAnalysisBlock" class="hidden">
+          <h3 class="analysis-title">Анализ по товарам</h3>
+          <div class="table-wrapper">
+            <table class="analysis-table" id="productAnalysisTable">
+              <thead>
+                <tr>
+                  <th>Название товара</th>
+                  <th>Доля в выручке (%)</th>
+                  <th>Доля в прибыли (%)</th>
+                  <th>Маржа товара (%)</th>
+                </tr>
+              </thead>
+              <tbody id="productAnalysisBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="simulator card">
+      <h2>Симулятор изменения цены</h2>
+
+      <label class="industry-field">
+        <span class="field-label">Отрасль бизнеса</span>
+        <select id="industry">
+          <option value="cafe">Кафе и рестораны</option>
+          <option value="barber">Барбершопы и салоны красоты</option>
+          <option value="premium">Премиум-сегмент (бьюти, рестораны выше среднего)</option>
+          <option value="b2b">Услуги для бизнеса (B2B)</option>
+          <option value="basics">Базовые продукты (хлеб, молоко, базовая еда)</option>
+          <option value="electronics">Электроника и бытовая техника</option>
+          <option value="clothing-mass">Одежда массмаркет</option>
+          <option value="clothing-premium">Одежда премиум</option>
+          <option value="other" selected>Другое</option>
+        </select>
+      </label>
+
+      <div class="slider-group">
+        <div class="slider-row">
+          <label class="slider-label" for="priceChange">Изменение цены</label>
+          <div class="slider-control">
+            <input type="range" id="priceChange" min="-20" max="30" step="1" value="0">
+            <span class="slider-value" id="priceChangeValue">0%</span>
+          </div>
+        </div>
+
+        <div class="slider-row">
+          <label class="slider-label" for="demandDrop">Ожидаемое падение спроса при росте цены</label>
+          <p class="slider-caption">Сколько процентов клиентов уйдёт если поднять цену</p>
+          <div class="slider-control">
+            <input type="range" id="demandDrop" min="0" max="30" step="1" value="5">
+            <span class="slider-value" id="demandDropValue">5%</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="sim-warning hidden" id="lossWarning">
+        ⚠ Внимание: текущая прибыль отрицательная. Подъём цены сам по себе не сделает бизнес прибыльным — нужен пересмотр структуры затрат.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="comparison-table scenarios-mode" id="comparisonTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Было</th>
+              <th class="col-scenarios-only">Пессимистичный</th>
+              <th class="col-scenarios-only">Реалистичный</th>
+              <th class="col-scenarios-only">Оптимистичный</th>
+              <th class="col-simple-only">Стало</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="simPriceRowLabel">Цена за единицу</td>
+              <td class="col-was" id="simPriceWas">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="pessimistic" data-metric="price">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="realistic" data-metric="price">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="optimistic" data-metric="price">—</td>
+              <td class="col-scenario col-simple-only" data-simple="price">—</td>
+            </tr>
+            <tr>
+              <td>Количество продаж</td>
+              <td class="col-was" id="simQtyWas">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="pessimistic" data-metric="qty">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="realistic" data-metric="qty">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="optimistic" data-metric="qty">—</td>
+              <td class="col-scenario col-simple-only" data-simple="qty">—</td>
+            </tr>
+            <tr>
+              <td>Выручка в месяц</td>
+              <td class="col-was" id="simRevenueWas">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="pessimistic" data-metric="revenue">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="realistic" data-metric="revenue">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="optimistic" data-metric="revenue">—</td>
+              <td class="col-scenario col-simple-only" data-simple="revenue">—</td>
+            </tr>
+            <tr>
+              <td>Чистая прибыль в месяц</td>
+              <td class="col-was" id="simProfitWas">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="pessimistic" data-metric="profit">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="realistic" data-metric="profit">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="optimistic" data-metric="profit">—</td>
+              <td class="col-scenario col-simple-only" data-simple="profit">—</td>
+            </tr>
+            <tr>
+              <td>Чистая маржа в %</td>
+              <td class="col-was" id="simMarginWas">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="pessimistic" data-metric="margin">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="realistic" data-metric="margin">—</td>
+              <td class="col-scenario col-scenarios-only" data-scenario="optimistic" data-metric="margin">—</td>
+              <td class="col-scenario col-simple-only" data-simple="margin">—</td>
+            </tr>
+            <tr>
+              <td>Изменение прибыли в тенге</td>
+              <td class="col-was">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="pessimistic" data-metric="deltaTenge">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="realistic" data-metric="deltaTenge">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="optimistic" data-metric="deltaTenge">—</td>
+              <td class="col-change col-simple-only" data-simple="deltaTenge">—</td>
+            </tr>
+            <tr>
+              <td>Изменение прибыли в процентах</td>
+              <td class="col-was">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="pessimistic" data-metric="deltaPercent">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="realistic" data-metric="deltaPercent">—</td>
+              <td class="col-change col-scenarios-only" data-scenario="optimistic" data-metric="deltaPercent">—</td>
+              <td class="col-change col-simple-only" data-simple="deltaPercent">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sim-conclusion hidden" id="simConclusion"></div>
+    </section>
+
+    <div class="export-section">
+      <button type="button" class="btn-primary" id="exportPdfBtn">Скачать отчёт PDF</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    © Aibek & Co · Pricing Consulting · Almaty, Kazakhstan
+  </footer>
+
+  <div id="pdfContent" style="display: none;"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script src="pdf.js"></script>
+</body>
+</html>
