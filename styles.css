@@ -598,9 +598,189 @@ input[type="range"]:focus::-webkit-slider-thumb {
   margin-top: 1rem;
 }
 
-/* PDF content — hidden until export; shown via JS during generation */
-#pdfContent {
+/* Отчёт для печати — скрыт на экране */
+#printReport {
   display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #printReport,
+  #printReport * {
+    visibility: visible;
+  }
+
+  #printReport {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20mm;
+    font-family: Arial, sans-serif;
+    color: #1a1a1a;
+    box-sizing: border-box;
+  }
+
+  #printReport header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #0f4c3a;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+
+  #printReport .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #printReport .logo-square {
+    background: #0f4c3a;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  #printReport .brand-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0f4c3a;
+  }
+
+  #printReport .brand-tag {
+    font-size: 10px;
+    color: #6b6b6b;
+  }
+
+  #printReport .report-date {
+    font-size: 11px;
+    color: #6b6b6b;
+    text-align: right;
+  }
+
+  #printReport h1 {
+    font-size: 22px;
+    margin: 0 0 5px;
+    color: #1a1a1a;
+  }
+
+  #printReport .subtitle {
+    font-size: 12px;
+    color: #6b6b6b;
+    margin: 0 0 25px;
+  }
+
+  #printReport h2 {
+    font-size: 14px;
+    color: #0f4c3a;
+    margin: 20px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c9a961;
+  }
+
+  #printReport table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 15px;
+  }
+
+  #printReport table th,
+  #printReport table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  #printReport table th {
+    background: #faf8f3;
+    font-weight: bold;
+  }
+
+  #printReport table td.value {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  #printReport #printKeyMetrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  #printReport .metric-card {
+    border: 1px solid #c9a961;
+    padding: 10px;
+    background: #faf8f3;
+  }
+
+  #printReport .metric-label {
+    font-size: 10px;
+    color: #6b6b6b;
+  }
+
+  #printReport .metric-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0f4c3a;
+    margin-top: 3px;
+  }
+
+  #printReport .print-sim-note {
+    font-size: 11px;
+    color: #6b6b6b;
+    margin: 0 0 10px;
+  }
+
+  #printReport .print-conclusion {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 12px;
+    background: #e8f5ef;
+    color: #0f4c3a;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+
+  #printReport .print-conclusion.negative {
+    background: #fdecea;
+    color: #b83227;
+  }
+
+  #printReport .recommendation {
+    background: #faf8f3;
+    border-left: 4px solid #c9a961;
+    padding: 12px 15px;
+    margin-top: 15px;
+  }
+
+  #printReport footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #c9a961;
+    font-size: 9px;
+    color: #6b6b6b;
+    text-align: center;
+  }
+
+  #printReport .hidden {
+    display: none !important;
+  }
+
+  @page {
+    margin: 0;
+  }
 }
 
 @media (max-width: 700px) {

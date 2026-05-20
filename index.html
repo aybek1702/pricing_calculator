@@ -264,10 +264,50 @@
     © Aibek & Co · Pricing Consulting · Almaty, Kazakhstan
   </footer>
 
-  <div id="pdfContent" style="display: none;"></div>
+  <div id="printReport">
+    <header>
+      <div class="brand">
+        <div class="logo-square">A</div>
+        <div>
+          <div class="brand-name">Aibek & Co</div>
+          <div class="brand-tag">Pricing Consulting · Almaty</div>
+        </div>
+      </div>
+      <div class="report-date">
+        <div>Отчёт от</div>
+        <div id="reportDate"></div>
+      </div>
+    </header>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <h1>Отчёт для: <span id="businessName"></span></h1>
+    <p class="subtitle">Анализ юнит-экономики и сценариев изменения цены</p>
+
+    <section>
+      <h2>Исходные данные</h2>
+      <table id="printInputData"></table>
+    </section>
+
+    <section>
+      <h2>Ключевые показатели</h2>
+      <div id="printKeyMetrics"></div>
+    </section>
+
+    <section id="printScenarios">
+      <h2>Сценарии изменения цены</h2>
+      <p id="printSimNote" class="print-sim-note"></p>
+      <table id="printScenariosTable"></table>
+      <p id="printConclusion" class="print-conclusion hidden"></p>
+    </section>
+
+    <section class="recommendation">
+      <h2>Рекомендация</h2>
+      <p id="printRecommendation"></p>
+    </section>
+
+    <footer>© Aibek & Co · Pricing Consulting · Almaty, Kazakhstan</footer>
+  </div>
+
   <script src="script.js"></script>
-  <script src="pdf.js"></script>
+  <script src="print.js"></script>
 </body>
 </html>
